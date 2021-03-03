@@ -84,7 +84,7 @@ function App() {
   
   return (
     <div className="bg-success min-vh-100 text-center">
-     <div id="drum-machine" className="text-white">
+     <div id="drum-machine" className="text-white mt-20">
        <h1>DRUM MACHINE</h1>
         {sounds.map(sound=>{
           return< Pad key={sound.id} sound={sound} volume={volume} setRecording={setRecording} />
