@@ -88,7 +88,7 @@ function App() {
        <h1 className="pt-5">DRUM MACHINE</h1>
         {sounds.map(sound=>{
           return< Pad key={sound.id} sound={sound} volume={volume} setRecording={setRecording} />
-        })}
+        })}npm
         <h4>Volume</h4>
         <input
          type="range"
