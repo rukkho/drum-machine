@@ -86,8 +86,9 @@ function App() {
     <div className="bg-success min-vh-100 text-center">
      <div id="drum-machine" className="text-white">
        <h1 className="pt-5">DRUM MACHINE</h1>
+       <h2>Press any Key to Play Sound</h2>
         {sounds.map(sound=>{
-          return< Pad key={sound.id} sound={sound} volume={volume} setRecording={setRecording} />
+          return< Pad classNamw="drum-pad" key={sound.id} sound={sound} volume={volume} setRecording={setRecording} />
         })}
         <h4>Volume</h4>
         <input
@@ -99,7 +100,7 @@ function App() {
             min="0"
             className="w-50"
         />
-        <h4>{recording}</h4>
+        <h4 id= "display">{recording}</h4>
         {recording && (
           <>
             <button onClick={playrecording} className="btn btn-success">PLAY</button>
@@ -148,8 +149,8 @@ function Pad({sound, volume, setRecording}){
     
   }
   return(
-    <div onClick= {playsound} id= "drum-pad" className={`btn btn-secondary m-3 p-4 text-white ${active && 'btn-warning'}`}>
-      <audio id={sound.keyTrigger} src={sound.url} />
+    <div onClick= {playsound}  className={`btn btn-secondary drum-pad m-3 p-4 text-white ${active && 'btn-warning'}`}>
+      <audio className="clip" id={sound.keyTrigger} src={sound.url} />
       {sound.keyTrigger}
     </div>
   )
