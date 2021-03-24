@@ -48,8 +48,7 @@ const sounds =  [
   {
     keyCode: 88,
     keyTrigger: 'X',
-    id: 'Kick',
-    url: 'https://s3.amazonaws.com/freecodecamp/drums/RP4_KICK_1.mp3'
+    url: 'https://s3.amazonaws.com/freecodecamp/drums/side_stick_1.mp3'
   },
   {
     keyCode: 67,
@@ -60,10 +59,13 @@ const sounds =  [
 ];
 
 function App() {
+  const [display, setDisplay] = React.useState("");
+  
   const [volume, setVolume]= React.useState(1);
   const [recording, setRecording]= React.useState("");
   const [speed, setSpeed] =React.useState(0.5)
   console.log(recording)
+  const handleDisplay= display=> setDisplay({display})
   const playrecording=()=>{
     let index = 0;
 
@@ -86,9 +88,9 @@ function App() {
     <div className="bg-success min-vh-100 text-center">
      <div id="drum-machine" className="text-white">
        <h1 className="pt-5">DRUM MACHINE</h1>
-       <h2>Press any Key to Play Sound</h2>
+       <div id="display">{display}</div>
         {sounds.map(sound=>{
-          return< Pad classNamw="drum-pad" key={sound.id} sound={sound} volume={volume} setRecording={setRecording} />
+          return< DrumPad key={sound.id} sound={sound} volume={volume} setRecording={setRecording} handleDisplay={handleDisplay}/>
         })}
         <h4>Volume</h4>
         <input
@@ -100,7 +102,7 @@ function App() {
             min="0"
             className="w-50"
         />
-        <h4 id= "display">{recording}</h4>
+        <h4 >{recording}</h4>
         {recording && (
           <>
             <button onClick={playrecording} className="btn btn-success">PLAY</button>
@@ -122,12 +124,14 @@ function App() {
   );
 }
 
-function Pad({sound, volume, setRecording}){
-  const [active, setActive]= React.useState(false)
-
+function DrumPad({sound, volume, setRecording,handleDisplay}){
+  const [active, setActive]= React.useState(false)    
+  
   const handleKeypress=(e)=>{
     if (e.keyCode === sound.keyCode)
       playsound();
+      
+     
   }
 
   React.useEffect(()=>{
@@ -146,10 +150,13 @@ function Pad({sound, volume, setRecording}){
     setTimeout(()=>setActive(false),200);
     audioTag.volume= volume;
     setRecording(prev => prev + sound.keyTrigger + " ");
+    handleDisplay(sound.id)
+    
     
   }
-  return(
+  return (
     <div onClick= {playsound}  className={`btn btn-secondary drum-pad m-3 p-4 text-white ${active && 'btn-warning'}`}>
+      
       <audio className="clip" id={sound.keyTrigger} src={sound.url} />
       {sound.keyTrigger}
     </div>
