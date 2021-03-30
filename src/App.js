@@ -48,7 +48,8 @@ const sounds =  [
   {
     keyCode: 88,
     keyTrigger: 'X',
-    url: 'https://s3.amazonaws.com/freecodecamp/drums/side_stick_1.mp3'
+    id: 'Kick',
+    url: 'https://s3.amazonaws.com/freecodecamp/drums/RP4_KICK_1.mp3'
   },
   {
     keyCode: 67,
@@ -59,13 +60,18 @@ const sounds =  [
 ];
 
 function App() {
-  const [display, setDisplay] = React.useState("");
   
+  const [display, setDisplay] = React.useState("")
   const [volume, setVolume]= React.useState(1);
   const [recording, setRecording]= React.useState("");
   const [speed, setSpeed] =React.useState(0.5)
-  console.log(recording)
-  const handleDisplay= display=> setDisplay({display})
+ 
+  
+  const handleDisplay=(sound)=>{
+    console.log(sound.id)
+    setDisplay( sound.id)
+  }
+
   const playrecording=()=>{
     let index = 0;
 
@@ -88,9 +94,9 @@ function App() {
     <div className="bg-success min-vh-100 text-center">
      <div id="drum-machine" className="text-white">
        <h1 className="pt-5">DRUM MACHINE</h1>
-       <div id="display">{display}</div>
+       <h4 id="display">{display}</h4>
         {sounds.map(sound=>{
-          return< DrumPad key={sound.id} sound={sound} volume={volume} setRecording={setRecording} handleDisplay={handleDisplay}/>
+          return< DrumPad key={sound.id}   sound={sound} volume={volume} setRecording={setRecording} handleDisplay={handleDisplay}/>
         })}
         <h4>Volume</h4>
         <input
@@ -102,6 +108,7 @@ function App() {
             min="0"
             className="w-50"
         />
+        
         <h4 >{recording}</h4>
         {recording && (
           <>
@@ -150,15 +157,16 @@ function DrumPad({sound, volume, setRecording,handleDisplay}){
     setTimeout(()=>setActive(false),200);
     audioTag.volume= volume;
     setRecording(prev => prev + sound.keyTrigger + " ");
-    handleDisplay(sound.id)
-    
-    
+    handleDisplay(sound)
+      
   }
+  
   return (
-    <div onClick= {playsound}  className={`btn btn-secondary drum-pad m-3 p-4 text-white ${active && 'btn-warning'}`}>
+    <div onClick= {playsound} id={sound.id} className={`btn btn-secondary drum-pad m-3 p-4 text-white ${active && 'btn-warning'}`}>
       
       <audio className="clip" id={sound.keyTrigger} src={sound.url} />
       {sound.keyTrigger}
+      
     </div>
   )
 }
